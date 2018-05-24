@@ -87,10 +87,34 @@ namespace Biblioteca.Common.Tests.Base
         public static Rent ValidRentWithoutBook()
         {
             Rent rent = new Rent();
-            rent.ClientName = "Yuri";
+            rent.ClientName = "Maria";
             rent.ReturnDate = DateTime.Now.AddDays(1);
             return rent;
         }
+
+        public static Rent InvalidRentClientName()
+        {
+            Rent rent = new Rent();
+            rent.ClientName = "";
+            rent.ReturnDate = DateTime.Now.AddDays(1);
+            return rent;
+        }
+
+        public static Rent InvalidRentDefaultDate()
+        {
+            Rent rent = new Rent();
+            rent.ClientName = "Maria";
+            return rent;
+        }
+
+        public static Rent InvalidRentInvalidDate()
+        {
+            Rent rent = new Rent();
+            rent.ClientName = "Maria";
+            rent.ReturnDate = DateTime.Now.AddDays(-1);
+            return rent;
+        }
+
         #endregion
     }
 }

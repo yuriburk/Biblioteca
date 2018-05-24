@@ -41,11 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Features\Books\BookService.cs" />
+    <Compile Include="Features\Rents\RentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Features\Rents\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Biblioteca\Biblioteca.Domain.csproj">
       <Project>{F68C7E77-EBA5-4156-8CE0-F8D89C908784}</Project>

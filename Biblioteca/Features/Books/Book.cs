@@ -14,7 +14,7 @@ namespace Biblioteca.Features.Books
         public string Author { get; set; }
         public int Volume { get; set; }
         public DateTime PublishDate { get; set; }
-        public bool Disponibility { get; set; }
+        public virtual bool Disponibility { get; set; }
 
         public void Validate()
         {

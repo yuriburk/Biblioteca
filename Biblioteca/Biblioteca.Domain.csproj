@@ -51,7 +51,10 @@
     <Compile Include="Features\Books\InvalidTitleLengthException.cs" />
     <Compile Include="Features\Books\InvalidVolumeException.cs" />
     <Compile Include="Features\Rents\DefaultReturnDateException.cs" />
+    <Compile Include="Features\Rents\IRentRepository.cs" />
+    <Compile Include="Features\Rents\IRentService.cs" />
     <Compile Include="Features\Rents\InvalidBookDisponibilityException.cs" />
+    <Compile Include="Features\Rents\InvalidBookRentException.cs" />
     <Compile Include="Features\Rents\InvalidClientNameLengthException.cs" />
     <Compile Include="Features\Rents\InvalidReturnDateException.cs" />
     <Compile Include="Features\Rents\Rent.cs" />

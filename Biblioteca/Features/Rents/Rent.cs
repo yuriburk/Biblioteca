@@ -11,7 +11,7 @@ namespace Biblioteca.Features.Rents
     {
         public long Id { get; set; }
         public string ClientName { get; set; }
-        public Book Book { get; set; }
+        public virtual Book Book { get; set; }
         public DateTime ReturnDate { get; set; }
 
         public void Validate()
@@ -20,6 +20,8 @@ namespace Biblioteca.Features.Rents
 
             if (ClientName.Length < 4)
                 throw new InvalidClientNameLengthException();
+            if (Book == null)
+                throw new InvalidBookRentException();
             if (!Book.Disponibility)
                 throw new InvalidBookDisponibilityException();
             if (ReturnDate == defaultDate)
