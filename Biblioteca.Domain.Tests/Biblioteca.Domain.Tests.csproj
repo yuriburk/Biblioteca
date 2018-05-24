@@ -54,11 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Features\Books\BookTest.cs" />
+    <Compile Include="Features\Rents\RentTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Features\Rents\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

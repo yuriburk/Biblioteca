@@ -8,6 +8,7 @@ namespace Biblioteca.Features.Books
 {
     public class Book
     {
+        public long Id { get; set; }
         public string Title { get; set; }
         public string Theme { get; set; }
         public string Author { get; set; }
@@ -17,16 +18,18 @@ namespace Biblioteca.Features.Books
 
         public void Validate()
         {
+            DateTime defaultDate = new DateTime();
+
             if (Title.Length < 4)
-                throw new Exception();
+                throw new InvalidTitleLengthException();
             if (Theme.Length < 4)
-                throw new Exception();
+                throw new InvalidThemeLengthException();
             if (Author.Length < 4)
-                throw new Exception();
+                throw new InvalidAuthorLengthException();
             if (Volume < 1)
-                throw new Exception();
-            if (PublishDate == null)
-                throw new Exception();
+                throw new InvalidVolumeException();
+            if (PublishDate == defaultDate)
+                throw new DefaultPublishDateException();
         }
     }
 }
