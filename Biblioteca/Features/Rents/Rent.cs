@@ -9,9 +9,9 @@ namespace Biblioteca.Features.Rents
 {
     public class Rent
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string ClientName { get; set; }
-        public virtual Book Book { get; set; }
+        public virtual List<Book> Books { get; set; }
         public DateTime ReturnDate { get; set; }
 
         public void Validate()
@@ -20,10 +20,13 @@ namespace Biblioteca.Features.Rents
 
             if (ClientName.Length < 4)
                 throw new InvalidClientNameLengthException();
-            if (Book == null)
+            if (Books.Count == 0)
                 throw new InvalidBookRentException();
-            if (!Book.Disponibility)
-                throw new InvalidBookDisponibilityException();
+            foreach (Book b in Books)
+            {
+                if (!b.Disponibility)
+                    throw new InvalidBookDisponibilityException();
+            }
             if (ReturnDate == defaultDate)
                 throw new DefaultReturnDateException();
             if (ReturnDate <= DateTime.Now)
