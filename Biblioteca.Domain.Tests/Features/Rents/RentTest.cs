@@ -125,5 +125,12 @@ namespace Biblioteca.Domain.Tests.Features.Rents
             //Verificar
             act.Should().Throw<InvalidReturnDateException>();
         }
+
+        [Test]
+        public void TearDown()
+        {
+            _rent = null;
+            _mockBook = null;
+        }
     }
 }

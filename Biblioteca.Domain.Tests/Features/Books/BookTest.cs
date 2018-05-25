@@ -151,5 +151,11 @@ namespace Biblioteca.Domain.Tests.Features.Books
             //Verificar
             act.Should().Throw<DefaultPublishDateException>();
         }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _book = null;
+        }
     }
 }
