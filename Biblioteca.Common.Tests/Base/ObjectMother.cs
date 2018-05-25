@@ -19,7 +19,7 @@ namespace Biblioteca.Common.Tests.Base
             book.Theme = "Educacional";
             book.Author = "Andrew";
             book.Volume = 2;
-            book.PublishDate = DateTime.Now.AddYears(-5);
+            book.PublishDate = DateTime.Now;
             book.Disponibility = true;
             return book;
         }
@@ -116,6 +116,7 @@ namespace Biblioteca.Common.Tests.Base
             return rent;
         }
 
+
         public static Rent InvalidRentUnavailableBook()
         {
             Rent rent = new Rent();
@@ -174,6 +175,16 @@ namespace Biblioteca.Common.Tests.Base
             rent.ClientName = "Maria";
             rent.Books = new List<Book>() { ValidBookWithId() };
             rent.ReturnDate = DateTime.Now.AddDays(-1);
+            return rent;
+        }
+
+        public static Rent ValidRentWithoutId()
+        {
+            Rent rent = new Rent();
+            rent.Id = 1;
+            rent.ClientName = "Maria";
+            rent.Books = new List<Book>() { ValidBookWithId() };
+            rent.ReturnDate = DateTime.Now.AddDays(1);
             return rent;
         }
         #endregion

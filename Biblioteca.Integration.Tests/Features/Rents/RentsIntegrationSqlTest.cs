@@ -3,8 +3,9 @@ using Biblioteca.Common.Tests.Base;
 using Biblioteca.Exceptions;
 using Biblioteca.Features.Books;
 using Biblioteca.Features.Rents;
+using Biblioteca.Infra.Data.Features.Books;
+using Biblioteca.Infra.Data.Features.Rents;
 using FluentAssertions;
-using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -12,43 +13,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Biblioteca.Applications.Tests.Features.Rents
+namespace Biblioteca.Integration.Tests.Features.Rents
 {
     [TestFixture]
-    public class RentServiceTest
+    public class RentsIntegrationSqlTest
     {
+        int _seedId = 1;
         int _invalidId = 0;
+
+        Book _book;
         Rent _rent;
+        IRentRepository _rentRepository;
         RentService _rentService;
-        Mock<IRentRepository> _mockRentRepository;
 
         [SetUp]
         public void Initialize()
         {
-            _rent = ObjectMother.ValidRentWithBook();
-            _mockRentRepository = new Mock<IRentRepository>();
-            _rentService = new RentService(_mockRentRepository.Object);
+            BaseSqlTest.SeedDataBase();
+            _book = ObjectMother.ValidBookWithId();
+            _rent = ObjectMother.ValidRentWithoutId();
+            _rentRepository = new RentSqlRepository();
+            _rentService = new RentService(_rentRepository);
         }
 
         [Test]
-        public void RentService_Add_ShouldBeOk()
+        public void RentIntegrationSql_Add_ShouldBeOk()
         {
-            //Cenário
-            _mockRentRepository.Setup(rp => rp.Save(_rent)).Returns(_rent);
-
-            //Ação
+            //Cenário e Ação
             Rent savedRent = _rentService.Add(_rent);
 
             //Verificar
             savedRent.Id.Should().Be(_rent.Id);
-            _mockRentRepository.Verify(rp => rp.Save(_rent));
         }
 
         [Test]
-        public void RentService_AddInvalidClientName_ShouldFail()
+        public void RentIntegrationSql_AddInvalidClientName_ShouldFail()
         {
             //Cenário
-            _mockRentRepository.Setup(rp => rp.Save(_rent)).Returns(_rent);
             _rent = ObjectMother.InvalidRentClientWithBook();
 
             //Ação
@@ -56,29 +57,25 @@ namespace Biblioteca.Applications.Tests.Features.Rents
 
             //Verificar
             act.Should().Throw<InvalidClientNameLengthException>();
-            _mockRentRepository.VerifyNoOtherCalls();
         }
 
         [Test]
-        public void RentService_AddWithoutBook_ShouldFail()
+        public void RentIntegrationSql_AddWithoutBook_ShouldFail()
         {
             //Cenário
-            _mockRentRepository.Setup(rp => rp.Save(_rent)).Throws<InvalidBookRentException>();
             _rent = ObjectMother.ValidRentWithoutBook();
 
             //Ação
-            Rent invalidRent = _rentService.Add(_rent);
+            Action act = () => _rentService.Add(_rent);
 
             //Verificar
-            invalidRent.Should().BeNull();
-            _mockRentRepository.Verify(rp => rp.Save(_rent));
+            act.Should().Throw<InvalidBookRentException>();
         }
 
         [Test]
-        public void RentService_AddUnavailableBook_ShouldFail()
+        public void RentIntegrationSql_AddUnavailableBook_ShouldFail()
         {
             //Cenário
-            _mockRentRepository.Setup(rp => rp.Save(_rent)).Returns(_rent);
             _rent = ObjectMother.InvalidRentUnavailableBook();
 
             //Ação
@@ -86,14 +83,12 @@ namespace Biblioteca.Applications.Tests.Features.Rents
 
             //Verificar
             act.Should().Throw<InvalidBookDisponibilityException>();
-            _mockRentRepository.VerifyNoOtherCalls();
         }
 
         [Test]
-        public void RentService_AddDefaultReturnDate_ShouldFail()
+        public void RentIntegrationSql_AddDefaultReturnDate_ShouldFail()
         {
             //Cenário
-            _mockRentRepository.Setup(rp => rp.Save(_rent)).Returns(_rent);
             _rent = ObjectMother.InvalidRentDefaultDateWithValidBookId();
 
             //Ação
@@ -101,14 +96,12 @@ namespace Biblioteca.Applications.Tests.Features.Rents
 
             //Verificar
             act.Should().Throw<DefaultReturnDateException>();
-            _mockRentRepository.VerifyNoOtherCalls();
         }
 
         [Test]
-        public void RentService_AddInvalidReturnDate_ShouldFail()
+        public void RentIntegrationSql_AddInvalidReturnDate_ShouldFail()
         {
             //Cenário
-            _mockRentRepository.Setup(rp => rp.Save(_rent)).Returns(_rent);
             _rent = ObjectMother.InvalidRentInvalidDateWithValidBookId();
 
             //Ação
@@ -116,28 +109,36 @@ namespace Biblioteca.Applications.Tests.Features.Rents
 
             //Verificar
             act.Should().Throw<InvalidReturnDateException>();
-            _mockRentRepository.VerifyNoOtherCalls();
         }
 
         [Test]
-        public void RentService_Update_ShouldBeOk()
+        public void RentIntegrationSql_Update_ShouldBeOk()
+        {
+            //Cenário e Ação
+            Rent updatedRent = _rentService.Update(_rent);
+
+            //Verificar
+            updatedRent.Id.Should().Be(_rent.Id);
+        }
+
+        [Test]
+        public void RentIntegrationSql_UpdateUnavailableToAvailable_ShouldBeOk()
         {
             //Cenário
-            _mockRentRepository.Setup(rp => rp.Update(_rent)).Returns(_rent);
+            _rent.Id = _seedId;
+            _rent.Books = new List<Book>();
 
             //Ação
             Rent updatedRent = _rentService.Update(_rent);
 
             //Verificar
-            updatedRent.Id.Should().Be(_rent.Id);
-            _mockRentRepository.Verify(rp => rp.Update(_rent));
+            updatedRent.Books.Count.Should().Be(_rent.Books.Count);
         }
 
         [Test]
-        public void RentService_UpdateInvalidClientName_ShouldFail()
+        public void RentIntegrationSql_UpdateInvalidClientName_ShouldFail()
         {
             //Cenário
-            _mockRentRepository.Setup(rp => rp.Update(_rent)).Returns(_rent);
             _rent = ObjectMother.InvalidRentClientWithBook();
 
             //Ação
@@ -145,14 +146,12 @@ namespace Biblioteca.Applications.Tests.Features.Rents
 
             //Verificar
             act.Should().Throw<InvalidClientNameLengthException>();
-            _mockRentRepository.VerifyNoOtherCalls();
         }
 
         [Test]
-        public void RentService_UpdateUnavailableBook_ShouldFail()
+        public void RentIntegrationSql_UpdateUnavailableBook_ShouldFail()
         {
             //Cenário
-            _mockRentRepository.Setup(rp => rp.Update(_rent)).Returns(_rent);
             _rent = ObjectMother.InvalidRentUnavailableBook();
 
             //Ação
@@ -160,14 +159,12 @@ namespace Biblioteca.Applications.Tests.Features.Rents
 
             //Verificar
             act.Should().Throw<InvalidBookDisponibilityException>();
-            _mockRentRepository.VerifyNoOtherCalls();
         }
 
         [Test]
-        public void RentService_UpdateDefaultReturnDate_ShouldFail()
+        public void RentIntegrationSql_UpdateDefaultReturnDate_ShouldFail()
         {
             //Cenário
-            _mockRentRepository.Setup(rp => rp.Update(_rent)).Returns(_rent);
             _rent = ObjectMother.InvalidRentDefaultDateWithValidBookId();
 
             //Ação
@@ -175,14 +172,12 @@ namespace Biblioteca.Applications.Tests.Features.Rents
 
             //Verificar
             act.Should().Throw<DefaultReturnDateException>();
-            _mockRentRepository.VerifyNoOtherCalls();
         }
 
         [Test]
-        public void RentService_UpdateInvalidReturnDate_ShouldFail()
+        public void RentIntegrationSql_UpdateInvalidReturnDate_ShouldFail()
         {
             //Cenário
-            _mockRentRepository.Setup(rp => rp.Update(_rent)).Returns(_rent);
             _rent = ObjectMother.InvalidRentInvalidDateWithValidBookId();
 
             //Ação
@@ -190,86 +185,62 @@ namespace Biblioteca.Applications.Tests.Features.Rents
 
             //Verificar
             act.Should().Throw<InvalidReturnDateException>();
-            _mockRentRepository.VerifyNoOtherCalls();
         }
 
         [Test]
-        public void RentService_Delete_ShouldBeOk()
+        public void RentIntegrationSql_Delete_ShouldBeOk()
         {
-            //Cenário
-            _mockRentRepository.Setup(rp => rp.Delete(_rent));
-
-            //Ação
+            //Cenário e Ação
             Action act = () => _rentService.Delete(_rent);
 
             //Verificar
             act.Should().NotThrow<IdentifierUndefinedException>();
-            _mockRentRepository.Verify(rp => rp.Delete(_rent));
         }
 
         [Test]
-        public void RentService_DeleteInvalidRentId_ShouldFail()
+        public void RentIntegrationSql_DeleteInvalidRentId_ShouldFail()
         {
             //Cenário
             _rent.Id = _invalidId;
-            _mockRentRepository.Setup(rp => rp.Delete(_rent));
-
+           
             //Ação
             Action act = () => _rentService.Delete(_rent);
 
             //Verificar
             act.Should().Throw<IdentifierUndefinedException>();
-            _mockRentRepository.VerifyNoOtherCalls();
         }
 
         [Test]
-        public void RentService_Get_ShouldBeOk()
+        public void RentIntegrationSql_Get_ShouldBeOk()
         {
-            //Cenário
-            _mockRentRepository.Setup(rp => rp.Get(_rent.Id)).Returns(_rent);
-
-            //Ação
+            //Cenário e Ação
             Rent getRent = _rentService.Get(_rent);
 
             //Verificar
             getRent.Id.Should().Be(_rent.Id);
-            _mockRentRepository.Verify(rp => rp.Get(_rent.Id));
         }
 
         [Test]
-        public void RentService_GetInvalidRentId_ShouldFail()
+        public void RentIntegrationSql_GetInvalidRentId_ShouldFail()
         {
             //Cenário
             _rent.Id = _invalidId;
-            _mockRentRepository.Setup(rp => rp.Get(_rent.Id)).Returns(_rent);
 
             //Ação
             Action act = () => _rentService.Get(_rent);
 
             //Verificar
             act.Should().Throw<IdentifierUndefinedException>();
-            _mockRentRepository.VerifyNoOtherCalls();
         }
 
         [Test]
-        public void RentService_GetAll_ShouldBeOk()
+        public void RentIntegrationSql_GetAll_ShouldBeOk()
         {
-            //Cenário
-            _mockRentRepository.Setup(rp => rp.GetAll()).Returns(new List<Rent>() { _rent });
-
-            //Ação
+            //Cenário e Ação
             IEnumerable<Rent> rentsList = _rentService.GetAll();
 
             //Verificar
             rentsList.First().Id.Should().Be(_rent.Id);
-            _mockRentRepository.Verify(rp => rp.GetAll());
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            _rent = null;
-            _rentService = null;
         }
     }
 }

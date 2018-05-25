@@ -75,19 +75,6 @@ namespace Biblioteca.Domain.Tests.Features.Rents
         }
 
         [Test]
-        public void Rent_WithoutBook_ShouldFail()
-        {
-            //Cenário
-            _rent = ObjectMother.ValidRentWithoutBook();
-
-            //Ação
-            Action act = () => _rent.Validate();
-
-            //Verificar
-            act.Should().Throw<InvalidBookRentException>();
-        }
-
-        [Test]
         public void Rent_ValidReturnDate_ShouldBeOk()
         {
             //Cenário e Ação

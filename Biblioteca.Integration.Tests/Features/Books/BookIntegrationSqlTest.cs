@@ -1,4 +1,5 @@
-﻿using Biblioteca.Common.Tests.Base;
+﻿using Biblioteca.Applications.Features.Books;
+using Biblioteca.Common.Tests.Base;
 using Biblioteca.Exceptions;
 using Biblioteca.Features.Books;
 using Biblioteca.Infra.Data.Features.Books;
@@ -10,15 +11,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Biblioteca.Infra.Data.Tests.Features.Books
+namespace Biblioteca.Integration.Tests.Features.Books
 {
     [TestFixture]
-    public class BookSqlRepositoryTest
+    public class BookIntegrationSqlTest
     {
-        private int _seedId = 1;
-        private int _invalidId = 0;
+        int _seedId = 1;
+        int _invalidId = 0;
 
         Book _book;
+        BookService _bookService;
         IBookRepository _bookRepository;
 
         [SetUp]
@@ -27,227 +29,216 @@ namespace Biblioteca.Infra.Data.Tests.Features.Books
             BaseSqlTest.SeedDataBase();
             _book = ObjectMother.ValidBookWithoutId();
             _bookRepository = new BookSqlRepository();
+            _bookService = new BookService(_bookRepository);
         }
 
         [Test]
-        public void BookSqlRepository_Add_ShouldBeOk()
+        public void BookIntegrationSql_Add_ShouldBeOk()
         {
             //Cenário e Ação
-            Book savedBook = _bookRepository.Save(_book);
+            Book savedBook = _bookService.Add(_book);
 
             //Verificar
+            savedBook.Should().NotBeNull();
             savedBook.Id.Should().Be(_book.Id);
         }
 
         [Test]
-        public void BookSqlRepository_AddInvalidTitle_ShouldFail()
+        public void BookIntegrationSql_AddInvalidTitle_ShouldFail()
         {
             //Cenário
             _book = ObjectMother.InvalidBookTitleWithoutId();
 
             //Ação
-            Action act = () => _bookRepository.Save(_book);
+            Action act = () => _bookService.Add(_book);
 
             //Verificar
             act.Should().Throw<InvalidTitleLengthException>();
         }
 
         [Test]
-        public void BookSqlRepository_AddInvalidTheme_ShouldFail()
+        public void BookIntegrationSql_AddInvalidTheme_ShouldFail()
         {
             //Cenário
             _book = ObjectMother.InvalidBookThemeWithoutId();
 
             //Ação
-            Action act = () => _bookRepository.Save(_book);
+            Action act = () => _bookService.Add(_book);
 
             //Verificar
             act.Should().Throw<InvalidThemeLengthException>();
         }
 
         [Test]
-        public void BookSqlRepository_AddInvalidAuthor_ShouldFail()
+        public void BookIntegrationSql_AddInvalidAuthor_ShouldFail()
         {
             //Cenário
             _book = ObjectMother.InvalidBookAuthorWithoutId();
 
             //Ação
-            Action act = () => _bookRepository.Save(_book);
+            Action act = () => _bookService.Add(_book);
 
             //Verificar
             act.Should().Throw<InvalidAuthorLengthException>();
         }
 
         [Test]
-        public void BookSqlRepository_AddInvalidVolume_ShouldFail()
+        public void BookIntegrationSql_AddInvalidVolume_ShouldFail()
         {
             //Cenário
             _book = ObjectMother.InvalidBookVolumeWithoutId();
 
             //Ação
-            Action act = () => _bookRepository.Save(_book);
+            Action act = () => _bookService.Add(_book);
 
             //Verificar
             act.Should().Throw<InvalidVolumeException>();
         }
 
         [Test]
-        public void BookSqlRepository_AddInvalidDate_ShouldFail()
+        public void BookIntegrationSql_AddInvalidDate_ShouldFail()
         {
             //Cenário
             _book = ObjectMother.InvalidBookDateWithoutId();
 
             //Ação
-            Action act = () => _bookRepository.Save(_book);
+            Action act = () => _bookService.Add(_book);
 
             //Verificar
             act.Should().Throw<DefaultPublishDateException>();
         }
 
         [Test]
-        public void BookSqlRepository_Update_ShouldBeOk()
+        public void BookIntegrationSql_Update_ShouldBeOk()
         {
             //Cenário e Ação
-            _book.Id = _seedId;
-            Book updatedBook = _bookRepository.Update(_book);
+            Book updatedBook = _bookService.Update(_book);
 
             //Verificar
+            updatedBook.Should().NotBeNull();
             updatedBook.Id.Should().Be(_book.Id);
         }
 
         [Test]
-        public void BookSqlRepository_UpdateAvailableToUnavailable_ShouldBeOk()
-        {
-            //Cenário e Ação
-            _bookRepository.Save(_book); //Livro disponível
-            _book.Disponibility = false;
-            Book updatedBook = _bookRepository.Update(_book);
-
-            //Verificar
-            updatedBook.Id.Should().Be(_book.Id);
-            updatedBook.Disponibility.Should().Be(false);
-        }
-
-        [Test]
-        public void BookSqlRepository_UpdateInvalidTitle_ShouldFail()
+        public void BookIntegrationSql_UpdateInvalidTitle_ShouldFail()
         {
             //Cenário
             _book = ObjectMother.InvalidBookTitleWithoutId();
-            _book.Id = _seedId;
 
             //Ação
-            Action act = () => _bookRepository.Update(_book);
+            Action act = () => _bookService.Update(_book);
 
             //Verificar
             act.Should().Throw<InvalidTitleLengthException>();
         }
 
         [Test]
-        public void BookSqlRepository_UpdateInvalidTheme_ShouldFail()
+        public void BookIntegrationSql_UpdateInvalidTheme_ShouldFail()
         {
             //Cenário
             _book = ObjectMother.InvalidBookThemeWithoutId();
-            _book.Id = _seedId;
 
             //Ação
-            Action act = () => _bookRepository.Update(_book);
+            Action act = () => _bookService.Update(_book);
 
             //Verificar
             act.Should().Throw<InvalidThemeLengthException>();
         }
 
         [Test]
-        public void BookSqlRepository_UpdateInvalidAuthor_ShouldFail()
+        public void BookIntegrationSql_UpdateInvalidAuthor_ShouldFail()
         {
             //Cenário
             _book = ObjectMother.InvalidBookAuthorWithoutId();
-            _book.Id = _seedId;
 
             //Ação
-            Action act = () => _bookRepository.Update(_book);
+            Action act = () => _bookService.Update(_book);
 
             //Verificar
             act.Should().Throw<InvalidAuthorLengthException>();
         }
 
         [Test]
-        public void BookSqlRepository_UpdateInvalidVolume_ShouldFail()
+        public void BookIntegrationSql_UpdateInvalidVolume_ShouldFail()
         {
             //Cenário
             _book = ObjectMother.InvalidBookVolumeWithoutId();
-            _book.Id = _seedId;
 
             //Ação
-            Action act = () => _bookRepository.Update(_book);
+            Action act = () => _bookService.Update(_book);
 
             //Verificar
             act.Should().Throw<InvalidVolumeException>();
         }
 
         [Test]
-        public void BookSqlRepository_UpdateInvalidDate_ShouldFail()
+        public void BookIntegrationSql_UpdateInvalidDate_ShouldFail()
         {
             //Cenário
             _book = ObjectMother.InvalidBookDateWithoutId();
-            _book.Id = _seedId;
 
             //Ação
-            Action act = () => _bookRepository.Update(_book);
+            Action act = () => _bookService.Update(_book);
 
             //Verificar
             act.Should().Throw<DefaultPublishDateException>();
         }
 
         [Test]
-        public void BookSqlRepository_Get_ShouldBeOk()
+        public void BookIntegrationSql_Delete_ShouldBeOk()
         {
             //Cenário e Ação
-            Book getBook = _bookRepository.Get(_seedId);
+            _book.Id = _seedId;
+            Action act = () => _bookService.Delete(_book);
 
             //Verificar
-            getBook.Id.Should().Be(_seedId);
+            act.Should().NotThrow<IdentifierUndefinedException>();
         }
 
         [Test]
-        public void BookSqlRepository_GetInvalidId_ShouldFail()
+        public void BookIntegrationSql_DeleteInvalidBookId_ShouldFail()
         {
-            //Cenário e Ação
-            Action act = () => _bookRepository.Get(_invalidId);
-
-            //Verificar
-            act.Should().Throw<IdentifierUndefinedException>();
-        }
-
-        [Test]
-        public void BookSqlRepository_Delete_ShouldBeOk()
-        {
-            //Cenário e Ação
-            _book = _bookRepository.Save(_book);
-            _bookRepository.Delete(_book);
-
-            //Verificar
-            _bookRepository.Get(_book.Id).Should().BeNull();
-        }
-
-        [Test]
-        public void BookSqlRepository_DeleteInvalidId_ShouldFail()
-        {
-            //Cenário e Ação
+            //Cenário
             _book.Id = _invalidId;
-            Action act = () => _bookRepository.Delete(_book);
+
+            //Ação
+            Action act = () => _bookService.Delete(_book);
 
             //Verificar
             act.Should().Throw<IdentifierUndefinedException>();
         }
 
         [Test]
-        public void BookSqlRepository_GetAll_ShouldBeOk()
+        public void BookIntegrationSql_Get_ShouldBeOk()
         {
             //Cenário e Ação
-            IEnumerable<Book> booksList = _bookRepository.GetAll();
+            _book.Id = _seedId;
+            Book getBook = _bookService.Get(_book);
 
             //Verificar
-            booksList.Should().HaveCount(1);
+            getBook.Id.Should().Be(_book.Id);
+        }
+
+        [Test]
+        public void BookIntegrationSql_GetInvalidBookId_ShouldFail()
+        {
+            //Cenário
+            _book.Id = _invalidId;
+
+            //Ação
+            Action act = () => _bookService.Get(_book);
+
+            //Verificar
+            act.Should().Throw<IdentifierUndefinedException>();
+        }
+
+        [Test]
+        public void BookIntegrationSql_GetAll_ShouldBeOk()
+        {
+            //Cenário e Ação
+            IEnumerable<Book> booksList = _bookService.GetAll();
+
+            //Verificar
             booksList.First().Id.Should().Be(_seedId);
         }
 
@@ -256,6 +247,7 @@ namespace Biblioteca.Infra.Data.Tests.Features.Books
         {
             _book = null;
             _bookRepository = null;
+            _bookService = null;
         }
     }
 }

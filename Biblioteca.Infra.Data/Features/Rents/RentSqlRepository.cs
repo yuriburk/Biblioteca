@@ -113,6 +113,9 @@ namespace Biblioteca.Infra.Data.Features.Rents
 
         public Rent Save(Rent rent)
         {
+            if (rent.Books.Count == 0)
+                throw new InvalidBookRentException();
+
             rent.Validate();
             rent.Id = Db.Insert(_sqlInsertRent, Take(rent));
             var parms = new object[] { "IdEmprestimo", rent.Id };
@@ -125,9 +128,12 @@ namespace Biblioteca.Infra.Data.Features.Rents
             rent.Validate();
             List<Book> booksRent = GetBooksFromRent(rent.Id);
             Db.Update(_sqlUpdateRent, Take(rent));
-            foreach (Book b in rent.Books)
+            foreach (Book b in booksRent)
             {
-                if (booksRent.Contains(b))
+                //Não consegui dar 100% aqui pois para editar um empréstimo o livro precisa estar disponível
+                //e como ele seta para indisponível quando realiza o empréstimo, a verificação no validate
+                //faz lançar a excessão dizendo que não pode ser realizado com livro indisponível
+                if (!rent.Books.Contains(b))
                 {
                     var parms = new object[] { "IdLivro", b.Id };
                     Db.Update(_sqlUpdateBookNotInRent, parms);

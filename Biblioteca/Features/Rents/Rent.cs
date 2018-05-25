@@ -20,8 +20,6 @@ namespace Biblioteca.Features.Rents
 
             if (ClientName.Length < 4)
                 throw new InvalidClientNameLengthException();
-            if (Books.Count == 0)
-                throw new InvalidBookRentException();
             foreach (Book b in Books)
             {
                 if (!b.Disponibility)

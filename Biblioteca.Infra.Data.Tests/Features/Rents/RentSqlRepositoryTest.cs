@@ -132,20 +132,6 @@ namespace Biblioteca.Infra.Data.Tests.Features.Rents
         }
 
         [Test]
-        public void RentSqlRepository_UpdateInvalidBooks_ShouldFail()
-        {
-            //Cenário
-            _rent = ObjectMother.ValidRentWithoutBook();
-            _rent.Id = _seedId;
-
-            //Ação
-            Action act = () => _rentRepository.Update(_rent);
-
-            //Verificar
-            act.Should().Throw<InvalidBookRentException>();
-        }
-
-        [Test]
         public void RentSqlRepository_UpdateUnavailableBook_ShouldFail()
         {
             //Cenário

@@ -9,10 +9,10 @@ namespace Biblioteca.Common.Tests.Base
 {
     public static class BaseSqlTest
     {
-        private const string RECREATE_RENT_BOOK_TABLE = "TRUNCATE TABLE [dbo].[TBEmprestimo_Livro]";
+        private const string RECREATE_RENT_BOOK_TABLE = "DELETE FROM [dbo].[TBEmprestimo_Livro] WHERE Livro_Id > 0";
         private const string RECREATE_BOOK_TABLE = "DELETE FROM [dbo].[TBLivro] DBCC CHECKIDENT('TBLivro', RESEED, 0)";
         private const string RECREATE_RENT_TABLE = "DELETE FROM [dbo].[TBEmprestimo] DBCC CHECKIDENT('TBEmprestimo', RESEED, 0)";
-        private const string INSERT_BOOK_TABLE = "INSERT INTO TBLivro VALUES ('Livro', 'Comédia', 'João', '1', GETDATE(), '0')";
+        private const string INSERT_BOOK_TABLE = "INSERT INTO TBLivro VALUES ('Use a Cabeça C#', 'Educacional', 'Andrew', '2', GETDATE(), '0')";
         private const string INSERT_RENT_TABLE = "INSERT INTO TBEmprestimo VALUES ('João', GETDATE())";
         private const string INSERT_RENT_WITHOUTBOOK_TABLE = "INSERT INTO TBEmprestimo VALUES ('Emprestimo sem livro', GETDATE())";
         private const string INSERT_RENT_BOOK_TABLE = "INSERT INTO TBEmprestimo_Livro VALUES (1, 1)";
