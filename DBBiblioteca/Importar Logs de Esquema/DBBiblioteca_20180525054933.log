@@ -1,0 +1,84 @@
+25/05/2018 02:49:33	Este log contém informações sobre a operação do esquema importado no projeto 'DBBiblioteca' no computador 'DESKTOP-I3293R5' pelo usuário 'Yuri'.
+25/05/2018 02:49:33	A importação do esquema de banco de dados foi iniciada.
+25/05/2018 02:49:38	Coletando credenciais do banco de dados
+25/05/2018 02:49:38	Coletando opções de banco de dados
+25/05/2018 02:49:38	Coletando usuários
+25/05/2018 02:49:38	Coletando funções
+25/05/2018 02:49:38	Coletando funções de aplicativo
+25/05/2018 02:49:38	Coletando associações de função
+25/05/2018 02:49:38	Coletando grupos de arquivos
+25/05/2018 02:49:38	Coletando catálogos de texto completo
+25/05/2018 02:49:38	Coletando assemblies
+25/05/2018 02:49:38	Coletando certificados
+25/05/2018 02:49:38	Coletando chaves assimétricas
+25/05/2018 02:49:38	Coletando chaves simétricas
+25/05/2018 02:49:38	Coletando chaves simétricas criptografadas
+25/05/2018 02:49:38	Coletando esquemas
+25/05/2018 02:49:38	Coletando coleções de esquema XML
+25/05/2018 02:49:38	Coletando tipos de dados definidos pelo usuário
+25/05/2018 02:49:38	Coletando tipos definidos pelo usuário
+25/05/2018 02:49:38	Coletando tipos de tabela
+25/05/2018 02:49:38	Coletando chaves exclusivas para tipos de tabela
+25/05/2018 02:49:38	Coletando chaves primárias para tipos de tabela
+25/05/2018 02:49:38	Reunindo índices para tipos de tabela
+25/05/2018 02:49:38	Coletando restrições de verificação para tipos de tabela
+25/05/2018 02:49:38	Coletando restrições padrão para tipos de tabela
+25/05/2018 02:49:38	Coletando funções de partição
+25/05/2018 02:49:38	Coletando esquemas de partição
+25/05/2018 02:49:38	Coletando funções
+25/05/2018 02:49:38	Coletando funções criptografadas
+25/05/2018 02:49:38	Coletando agregações
+25/05/2018 02:49:38	Coletando procedimentos
+25/05/2018 02:49:38	Coletando procedimentos criptografados
+25/05/2018 02:49:38	Coletando tabelas
+25/05/2018 02:49:38	Coletando chaves primárias
+25/05/2018 02:49:38	Coletando restrições exclusivas
+25/05/2018 02:49:38	Coletando chaves estrangeiras
+25/05/2018 02:49:38	Coletando restrições padrão
+25/05/2018 02:49:38	Coletando restrições de verificação
+25/05/2018 02:49:38	Coletando exibições
+25/05/2018 02:49:38	Coletando exibições criptografadas
+25/05/2018 02:49:38	Coletando índices
+25/05/2018 02:49:38	Coletando estatísticas
+25/05/2018 02:49:38	Coletando listas de palavras irrelevantes de índice de texto completo
+25/05/2018 02:49:38	Coletando listas de propriedades de pesquisa
+25/05/2018 02:49:38	Coletando propriedades de pesquisa
+25/05/2018 02:49:38	Coletando índices de texto completo
+25/05/2018 02:49:38	Coletando índices de repositório de coluna
+25/05/2018 02:49:38	Coletando índices espaciais
+25/05/2018 02:49:38	Coletando índices XML
+25/05/2018 02:49:38	Reunindo índices XML Seletivos
+25/05/2018 02:49:38	Coletando gatilhos criptografados
+25/05/2018 02:49:38	Coletando gatilhos
+25/05/2018 02:49:38	Coletando gatilhos ddl criptografados e clr
+25/05/2018 02:49:38	Coletando gatilhos ddl
+25/05/2018 02:49:38	Coletando sinônimos
+25/05/2018 02:49:38	Coletando padrões
+25/05/2018 02:49:38	Coletando ligações uddt de restrições de dados
+25/05/2018 02:49:38	Coletando regras
+25/05/2018 02:49:38	Coletando ligações uddt de restrições de dados
+25/05/2018 02:49:38	Coletando tipos de mensagem
+25/05/2018 02:49:38	Coletando filas
+25/05/2018 02:49:38	Coletando contratos
+25/05/2018 02:49:38	Coletando serviços
+25/05/2018 02:49:38	Coletando notificações de eventos
+25/05/2018 02:49:38	Coletando ligações de serviço remoto
+25/05/2018 02:49:38	Coletando prioridades do agente
+25/05/2018 02:49:38	Coletando assinaturas
+25/05/2018 02:49:38	Coletando opções de compactação de dados
+25/05/2018 02:49:38	Coletando tipos de sequência
+25/05/2018 02:49:38	Reunindo as políticas de segurança
+25/05/2018 02:49:38	Coletar chaves de criptografia de coluna
+25/05/2018 02:49:38	Coletando chaves mestre de coluna
+25/05/2018 02:49:38	Coletando fontes de dados externas
+25/05/2018 02:49:38	Coletando formatos de arquivo externo
+25/05/2018 02:49:38	Coletando tabelas externas
+25/05/2018 02:49:38	Coletando propriedades estendidas
+25/05/2018 02:49:38	Coletando credenciais
+25/05/2018 02:49:38	Coletando logons
+25/05/2018 02:49:39	Coletando auditorias de servidor
+25/05/2018 02:49:39	Examinando projeto para elementos duplicados
+25/05/2018 02:49:39	Processamento de elementos duplicados concluído
+25/05/2018 02:49:39	Importação do banco de dados concluída.
+25/05/2018 02:49:39	Um resumo da importação foi salvo no seguinte local: C:\Users\Yuri\Documents\Yuri\Academia do Programador NDD 2018\Biblioteca\DBBiblioteca\Importar Logs de Esquema\DBBiblioteca_20180525054933.log.
+25/05/2018 02:49:39	Clique em Concluir para continuar...

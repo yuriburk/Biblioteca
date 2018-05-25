@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca.Infra.Data.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca.Integration.Tests", "Biblioteca.Integration.Tests\Biblioteca.Integration.Tests.csproj", "{5BED0A7E-EAE8-4B02-87A5-4442BE918F0D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Database", "5. Database", "{B2919ABC-002E-4A50-8FFD-60C696527B1A}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DBBiblioteca", "DBBiblioteca\DBBiblioteca.sqlproj", "{C07FDEC5-B261-4746-8998-FCC962A97C4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +77,12 @@ Global
 		{5BED0A7E-EAE8-4B02-87A5-4442BE918F0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BED0A7E-EAE8-4B02-87A5-4442BE918F0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BED0A7E-EAE8-4B02-87A5-4442BE918F0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C07FDEC5-B261-4746-8998-FCC962A97C4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C07FDEC5-B261-4746-8998-FCC962A97C4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C07FDEC5-B261-4746-8998-FCC962A97C4B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C07FDEC5-B261-4746-8998-FCC962A97C4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C07FDEC5-B261-4746-8998-FCC962A97C4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C07FDEC5-B261-4746-8998-FCC962A97C4B}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +97,7 @@ Global
 		{E63C647D-43DA-4993-91E7-784C8ACF801D} = {1547DE14-54C5-4763-8F2D-C39E890D5746}
 		{675D8E86-C339-4705-90FC-3AA2E03F41F6} = {68644F6F-FAC4-4FFB-8433-0DB8D392AB4B}
 		{5BED0A7E-EAE8-4B02-87A5-4442BE918F0D} = {68644F6F-FAC4-4FFB-8433-0DB8D392AB4B}
+		{C07FDEC5-B261-4746-8998-FCC962A97C4B} = {B2919ABC-002E-4A50-8FFD-60C696527B1A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {06566532-43BC-4072-8D24-7295B40EDD87}
