@@ -20,7 +20,7 @@ namespace Biblioteca.Infra.Data.Features.Books
                                                     Tema = @Tema,
                                                     Autor = @Autor,
                                                     Volume = @Volume,
-                                                    DataPublicacao = @DataPublicacao
+                                                    DataPublicacao = @DataPublicacao,
                                                     Disponivel = @Disponivel
                                                 WHERE
                                                     IdLivro = @IdLivro";
@@ -93,7 +93,7 @@ namespace Biblioteca.Infra.Data.Features.Books
                 "@Autor", book.Author,
                 "@Volume", book.Volume,
                 "@DataPublicacao", book.PublishDate,
-                "@Disponivel", book.Disponibility
+                "@Disponivel", (book.Disponibility == true) ? 1 : 0
             };
         }
     }

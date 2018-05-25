@@ -24,7 +24,7 @@ namespace Biblioteca.Domain.Tests.Features.Rents
             _mockBook = new Mock<Book>();
             _mockBook.Setup(b => b.Disponibility).Returns(true);
             _rent = ObjectMother.ValidRentWithoutBook();
-            _rent.Book = _mockBook.Object;
+            _rent.Books = new List<Book>() { _mockBook.Object };
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Biblioteca.Domain.Tests.Features.Rents
         {
             //Cenário
             _rent = ObjectMother.InvalidRentClientName();
-            _rent.Book = _mockBook.Object;
+            _rent.Books = new List<Book>() { _mockBook.Object };
 
             //Ação
             Action act = () => _rent.Validate();
@@ -103,7 +103,7 @@ namespace Biblioteca.Domain.Tests.Features.Rents
         {
             //Cenário
             _rent = ObjectMother.InvalidRentDefaultDate();
-            _rent.Book = _mockBook.Object;
+            _rent.Books = new List<Book>() { _mockBook.Object };
 
             //Ação
             Action act = () => _rent.Validate();
@@ -117,7 +117,7 @@ namespace Biblioteca.Domain.Tests.Features.Rents
         {
             //Cenário
             _rent = ObjectMother.InvalidRentInvalidDate();
-            _rent.Book = _mockBook.Object;
+            _rent.Books = new List<Book>() { _mockBook.Object };
 
             //Ação
             Action act = () => _rent.Validate();

@@ -101,6 +101,7 @@ namespace Biblioteca.Common.Tests.Base
         {
             Rent rent = new Rent();
             rent.ClientName = "Maria";
+            rent.Books = new List<Book>();
             rent.ReturnDate = DateTime.Now.AddDays(1);
             return rent;
         }
@@ -110,7 +111,7 @@ namespace Biblioteca.Common.Tests.Base
             Rent rent = new Rent();
             rent.Id = 1;
             rent.ClientName = "Maria";
-            rent.Book = ValidBookWithId();
+            rent.Books = new List<Book>() { ValidBookWithId() };
             rent.ReturnDate = DateTime.Now.AddDays(1);
             return rent;
         }
@@ -119,7 +120,7 @@ namespace Biblioteca.Common.Tests.Base
         {
             Rent rent = new Rent();
             rent.ClientName = "Maria";
-            rent.Book = new Book() { Disponibility = false };
+            rent.Books = new List<Book>() { new Book() { Disponibility = false } };
             rent.ReturnDate = DateTime.Now.AddDays(1);
             return rent;
         }
@@ -128,6 +129,7 @@ namespace Biblioteca.Common.Tests.Base
         {
             Rent rent = new Rent();
             rent.ClientName = "";
+            rent.Books = new List<Book>() { ValidBookWithId() };
             rent.ReturnDate = DateTime.Now.AddDays(1);
             return rent;
         }
@@ -136,6 +138,7 @@ namespace Biblioteca.Common.Tests.Base
         {
             Rent rent = new Rent();
             rent.ClientName = "";
+            rent.Books = new List<Book>() { ValidBookWithId() };
             rent.ReturnDate = DateTime.Now.AddDays(1);
             return rent;
         }
@@ -144,6 +147,7 @@ namespace Biblioteca.Common.Tests.Base
         {
             Rent rent = new Rent();
             rent.ClientName = "Maria";
+            rent.Books = new List<Book>() { ValidBookWithId() };
             return rent;
         }
 
@@ -151,7 +155,7 @@ namespace Biblioteca.Common.Tests.Base
         {
             Rent rent = new Rent();
             rent.ClientName = "Maria";
-            rent.Book = ValidBookWithId();
+            rent.Books = new List<Book>() { ValidBookWithId() };
             return rent;
         }
 
@@ -159,6 +163,7 @@ namespace Biblioteca.Common.Tests.Base
         {
             Rent rent = new Rent();
             rent.ClientName = "Maria";
+            rent.Books = new List<Book>() { ValidBookWithId() };
             rent.ReturnDate = DateTime.Now.AddDays(-1);
             return rent;
         }
@@ -167,7 +172,7 @@ namespace Biblioteca.Common.Tests.Base
         {
             Rent rent = new Rent();
             rent.ClientName = "Maria";
-            rent.Book = ValidBookWithId();
+            rent.Books = new List<Book>() { ValidBookWithId() };
             rent.ReturnDate = DateTime.Now.AddDays(-1);
             return rent;
         }

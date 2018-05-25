@@ -59,6 +59,7 @@
     <Compile Include="Features\Rents\InvalidClientNameLengthException.cs" />
     <Compile Include="Features\Rents\InvalidReturnDateException.cs" />
     <Compile Include="Features\Rents\Rent.cs" />
+    <Compile Include="Features\Rents\RentWithBookException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

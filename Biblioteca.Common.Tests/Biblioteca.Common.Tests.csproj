@@ -41,10 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\BaseSqlTest.cs" />
     <Compile Include="Base\ObjectMother.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Biblioteca.Infra\Biblioteca.Infra.csproj">
+      <Project>{A6014486-4B2A-4B9C-A18A-9C58A1DE457C}</Project>
+      <Name>Biblioteca.Infra</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Biblioteca\Biblioteca.Domain.csproj">
       <Project>{F68C7E77-EBA5-4156-8CE0-F8D89C908784}</Project>
       <Name>Biblioteca.Domain</Name>

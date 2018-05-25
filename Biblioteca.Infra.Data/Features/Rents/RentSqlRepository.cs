@@ -20,6 +20,14 @@ namespace Biblioteca.Infra.Data.Features.Rents
                                                     FROM TBLivro AS L
                                                     INNER JOIN TBEmprestimo_Livro AS EL
                                                     ON EL.Emprestimo_Id = @IdEmprestimo";
+        private const string _sqlUpdateBookNotInRent = @"UPDATE TBLivro
+                                                    SET Disponivel = 1
+                                                    FROM TBLivro AS L
+                                                    INNER JOIN TBEmprestimo_Livro AS EL
+                                                    ON EL.Livro_Id = @IdLivro
+                                                    DELETE EL FROM TBEmprestimo_Livro AS EL
+                                                    INNER JOIN TBLivro AS L
+                                                    ON L.IdLivro = @IdLivro";
         private const string _sqlUpdateRent = @"UPDATE TBEmprestimo
                                                 SET
                                                     NomeCliente = @NomeCliente,
@@ -29,7 +37,7 @@ namespace Biblioteca.Infra.Data.Features.Rents
         private const string _sqlGetById = @"SELECT 
                                                 E.IdEmprestimo,
                                                 E.NomeCliente,
-                                                E.DataDevolucao
+                                                E.DataDevolucao,
                                                 L.IdLivro,
                                                 L.Titulo,
                                                 L.Tema,
@@ -55,12 +63,12 @@ namespace Biblioteca.Infra.Data.Features.Rents
                                             INNER JOIN TBEmprestimo_Livro AS EL
                                             ON EL.Livro_Id = L.IdLivro
                                             INNER JOIN TBEmprestimo AS E
-                                            ON EL.Emprestimo_Id = E.EmprestimoId
-                                            WHERE IdEmprestimo = @IdEmprestimo";
+                                            ON EL.Emprestimo_Id = E.IdEmprestimo
+                                            WHERE E.IdEmprestimo = @IdEmprestimo";
         private const string _sqlGetAll = @"SELECT 
                                                 E.IdEmprestimo,
                                                 E.NomeCliente,
-                                                E.DataDevolucao
+                                                E.DataDevolucao,
                                                 L.IdLivro,
                                                 L.Titulo,
                                                 L.Tema,
@@ -82,8 +90,10 @@ namespace Biblioteca.Infra.Data.Features.Rents
             if (rent.Id == 0)
                 throw new IdentifierUndefinedException();
 
-            var parms = new object[] { "IdEmprestimo", rent.Id };
+            if (rent.Books.Count > 0)
+                throw new RentWithBookException();
 
+            var parms = new object[] { "IdEmprestimo", rent.Id };
             Db.Delete(_sqlDeleteRent, parms);
         }
 
@@ -113,7 +123,16 @@ namespace Biblioteca.Infra.Data.Features.Rents
         public Rent Update(Rent rent)
         {
             rent.Validate();
+            List<Book> booksRent = GetBooksFromRent(rent.Id);
             Db.Update(_sqlUpdateRent, Take(rent));
+            foreach (Book b in rent.Books)
+            {
+                if (booksRent.Contains(b))
+                {
+                    var parms = new object[] { "IdLivro", b.Id };
+                    Db.Update(_sqlUpdateBookNotInRent, parms);
+                }
+            }
 
             return rent;
         }
@@ -151,7 +170,7 @@ namespace Biblioteca.Infra.Data.Features.Rents
             {
                 "@IdEmprestimo", rent.Id,
                 "@NomeCliente", rent.ClientName,
-                "@DataDevolucao", rent.ReturnDate,
+                "@DataDevolucao", rent.ReturnDate
             };
         }
     }
