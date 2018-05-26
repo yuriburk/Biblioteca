@@ -122,17 +122,47 @@ namespace Biblioteca.Integration.Tests.Features.Rents
         }
 
         [Test]
-        public void RentIntegrationSql_UpdateUnavailableToAvailable_ShouldBeOk()
+        public void RentIntegrationSql_UpdateAvailableToUnavailable_ShouldBeOk()
         {
             //Cenário
+            _book = ObjectMother.AnotherValidBookWithId();
             _rent.Id = _seedId;
-            _rent.Books = new List<Book>();
+            _rent.Books.Add(_book);
 
             //Ação
             Rent updatedRent = _rentService.Update(_rent);
 
             //Verificar
             updatedRent.Books.Count.Should().Be(_rent.Books.Count);
+        }
+
+        [Test]
+        public void RentIntegrationSql_UpdateUnavailableToAvailable_ShouldBeOk()
+        {
+            //Cenário
+            _book = ObjectMother.AnotherValidBookWithId();
+            _rent.Id = _seedId;
+            _rent.Books = new List<Book>() { _book };
+
+            //Ação
+            Rent updatedRent = _rentService.Update(_rent);
+
+            //Verificar
+            updatedRent.Books.Count.Should().Be(_rent.Books.Count);
+        }
+
+        [Test]
+        public void RentIntegrationSql_UpdateRentWithNoBook_ShouldFail()
+        {
+            //Cenário
+            _rent.Id = _seedId;
+            _rent.Books = new List<Book>();
+
+            //Ação
+            Action act = () => _rentService.Update(_rent);
+
+            //Verificar
+            act.Should().Throw<InvalidBookRentException>();
         }
 
         [Test]

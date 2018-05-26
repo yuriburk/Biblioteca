@@ -9,7 +9,7 @@ namespace Biblioteca.Features.Rents
 {
     public class InvalidBookRentException : BusinessException
     {
-        public InvalidBookRentException() : base("Não pode realizar empréstimo sem conter um livro")
+        public InvalidBookRentException() : base("O empréstimo deve conter pelo menos um livro")
         {
         }
     }

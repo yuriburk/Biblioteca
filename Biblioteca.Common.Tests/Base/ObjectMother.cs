@@ -24,6 +24,19 @@ namespace Biblioteca.Common.Tests.Base
             return book;
         }
 
+        public static Book AnotherValidBookWithId()
+        {
+            Book book = new Book();
+            book.Id = 2;
+            book.Title = "Use a Cabeça C#";
+            book.Theme = "Educacional";
+            book.Author = "Andrew";
+            book.Volume = 2;
+            book.PublishDate = DateTime.Now;
+            book.Disponibility = true;
+            return book;
+        }
+
         public static Book ValidBookWithoutId()
         {
             Book book = new Book();

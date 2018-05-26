@@ -247,7 +247,7 @@ namespace Biblioteca.Infra.Data.Tests.Features.Books
             IEnumerable<Book> booksList = _bookRepository.GetAll();
 
             //Verificar
-            booksList.Should().HaveCount(1);
+            booksList.Should().HaveCount(2);
             booksList.First().Id.Should().Be(_seedId);
         }
 
