@@ -13,6 +13,7 @@ namespace Biblioteca.Features.Rents
         public string ClientName { get; set; }
         public virtual List<Book> Books { get; set; }
         public DateTime ReturnDate { get; set; }
+        public double Fine => GetFine();
 
         public void Validate()
         {
@@ -29,6 +30,19 @@ namespace Biblioteca.Features.Rents
                 throw new DefaultReturnDateException();
             if (ReturnDate <= DateTime.Now)
                 throw new InvalidReturnDateException();
+        }
+
+        private double GetFine()
+        {
+            double fine = 0;
+
+            if (DateTime.Now > ReturnDate)
+            {
+                TimeSpan timeDifference = DateTime.Now - ReturnDate;
+                fine = timeDifference.Days * 2.5;
+            }
+
+            return fine;
         }
     }
 }

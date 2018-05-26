@@ -114,6 +114,28 @@ namespace Biblioteca.Domain.Tests.Features.Rents
         }
 
         [Test]
+        public void Rent_GetExistentFine_ShouldBeOk()
+        {
+            //Cenário
+            double oneDayFine = 2.50;
+            _rent.ReturnDate = DateTime.Now.AddDays(-1);
+
+            //Ação e Verificar
+            _rent.Fine.Should().Be(oneDayFine);
+        }
+
+        [Test]
+        public void Rent_GetNonExistentFine_ShouldBeOk()
+        {
+            //Cenário
+            double withoutFine = 0;
+            _rent.ReturnDate = DateTime.Now.AddDays(1);
+
+            //Ação e Verificar
+            _rent.Fine.Should().Be(withoutFine);
+        }
+
+        [Test]
         public void TearDown()
         {
             _rent = null;
