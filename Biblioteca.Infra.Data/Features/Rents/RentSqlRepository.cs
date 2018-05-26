@@ -113,9 +113,6 @@ namespace Biblioteca.Infra.Data.Features.Rents
 
         public Rent Save(Rent rent)
         {
-            if (rent.Books.Count == 0)
-                throw new InvalidBookRentException();
-
             rent.Validate();
             rent.Id = Db.Insert(_sqlInsertRent, Take(rent));
             var parms = new object[] { "IdEmprestimo", rent.Id };
@@ -125,9 +122,6 @@ namespace Biblioteca.Infra.Data.Features.Rents
 
         public Rent Update(Rent rent)
         {
-            if (rent.Books.Count == 0)
-                throw new InvalidBookRentException();
-
             rent.Validate();
             List<Book> booksRent = GetBooksFromRent(rent.Id);
             Db.Update(_sqlUpdateRent, Take(rent));

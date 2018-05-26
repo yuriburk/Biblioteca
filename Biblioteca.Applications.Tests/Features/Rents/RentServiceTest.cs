@@ -63,15 +63,15 @@ namespace Biblioteca.Applications.Tests.Features.Rents
         public void RentService_AddWithoutBook_ShouldFail()
         {
             //Cenário
-            _mockRentRepository.Setup(rp => rp.Save(_rent)).Throws<InvalidBookRentException>();
+            _mockRentRepository.Setup(rp => rp.Save(_rent)).Returns(_rent);
             _rent = ObjectMother.ValidRentWithoutBook();
 
             //Ação
-            Rent invalidRent = _rentService.Add(_rent);
+            Action act = () => _rentService.Add(_rent);
 
             //Verificar
-            invalidRent.Should().BeNull();
-            _mockRentRepository.Verify(rp => rp.Save(_rent));
+            act.Should().Throw<InvalidBookRentException>();
+            _mockRentRepository.VerifyNoOtherCalls();
         }
 
         [Test]
