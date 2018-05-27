@@ -15,19 +15,28 @@ namespace Biblioteca.Infra.Data.Features.Rents
         #region SQL Script
         private const string _sqlInsertRent = @"INSERT INTO TBEmprestimo
                                                 VALUES (@NomeCliente, @DataDevolucao)";
-        private const string _sqlUpdateBookInRent = @"UPDATE TBLivro
+        private const string _sqlInsertRentBookAndUpdate = @"INSERT INTO TBEmprestimo_Livro
+                                                    VALUES (@Emprestimo_Id, @Livro_Id)
+
+                                                    UPDATE TBLivro
                                                     SET Disponivel = 0
                                                     FROM TBLivro AS L
                                                     INNER JOIN TBEmprestimo_Livro AS EL
-                                                    ON EL.Emprestimo_Id = @IdEmprestimo";
+                                                    ON EL.Emprestimo_Id = @Emprestimo_Id";
         private const string _sqlUpdateBookNotInRent = @"UPDATE TBLivro
                                                     SET Disponivel = 1
                                                     FROM TBLivro AS L
                                                     INNER JOIN TBEmprestimo_Livro AS EL
                                                     ON EL.Livro_Id = @IdLivro
+                                                    
                                                     DELETE EL FROM TBEmprestimo_Livro AS EL
                                                     INNER JOIN TBLivro AS L
                                                     ON L.IdLivro = @IdLivro";
+        private const string _sqlUpdateBookNotInRent2 = @"UPDATE TBLivro
+                                                        SET Disponivel = 1
+                                                        WHERE NOT EXISTS 
+                                                        (SELECT * FROM TBEmprestimo_Livro 
+                                                        WHERE TBEmprestimo_Livro.Livro_Id = TBLivro.IdLivro)";
         private const string _sqlUpdateRent = @"UPDATE TBEmprestimo
                                                 SET
                                                     NomeCliente = @NomeCliente,
@@ -113,18 +122,28 @@ namespace Biblioteca.Infra.Data.Features.Rents
 
         public Rent Save(Rent rent)
         {
+            //Salvar Rent
             rent.Validate();
             rent.Id = Db.Insert(_sqlInsertRent, Take(rent));
-            var parms = new object[] { "IdEmprestimo", rent.Id };
-            Db.Update(_sqlUpdateBookInRent, parms);
+            //Atualizar Livro e salvar na tabela intermediária
+            foreach (Book book in rent.Books)
+                Db.Update(_sqlInsertRentBookAndUpdate, TakeRentAndBookId(rent, book));
             return rent;
         }
 
         public Rent Update(Rent rent)
         {
             rent.Validate();
-            List<Book> booksRent = GetBooksFromRent(rent.Id);
+            UpdateBooksInRent(rent);
             Db.Update(_sqlUpdateRent, Take(rent));
+
+            return rent;
+        }
+
+        private void UpdateBooksInRent(Rent rent)
+        {
+            List<Book> booksRent = GetBooksFromRent(rent.Id);
+
             foreach (Book bookInOutdatedRent in booksRent)
             {
                 foreach (Book bookInUpdatedRent in rent.Books)
@@ -136,8 +155,6 @@ namespace Biblioteca.Infra.Data.Features.Rents
                     }
                 }
             }
-
-            return rent;
         }
 
         private static Func<IDataReader, Rent> Make = reader =>
@@ -174,6 +191,15 @@ namespace Biblioteca.Infra.Data.Features.Rents
                 "@IdEmprestimo", rent.Id,
                 "@NomeCliente", rent.ClientName,
                 "@DataDevolucao", rent.ReturnDate
+            };
+        }
+
+        private object[] TakeRentAndBookId(Rent rent, Book book)
+        {
+            return new object[]
+            {
+                "@Emprestimo_Id", rent.Id,
+                "@Livro_Id", book.Id
             };
         }
     }

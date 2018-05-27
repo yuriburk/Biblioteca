@@ -1,4 +1,5 @@
 ﻿using Biblioteca.Exceptions;
+using Biblioteca.Features.Books;
 using Biblioteca.Features.Rents;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,9 @@ namespace Biblioteca.Applications.Features.Rents
         public Rent Update(Rent rent)
         {
             rent.Validate();
+
+            Rent outdatedRent = _rentRepository.Get(rent.Id);
+
             return _rentRepository.Update(rent);
         }
     }
